@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登陆</title>
+</head>
+<link rel="stylesheet" href="__STATIC__/css/login.css">
+<link rel="stylesheet" href="__STATIC__/assets/iconfont/iconfont.css">
+<script src="__STATIC__/js/jquery.js"></script>
+<style>
+    body {
+        background-color: #fff;
+    }
+    .box {
+        width: 1180px;
+        margin: auto;
+    }
+
+    #index-img {
+        height: 80px;
+    }
+
+    .content {
+        width: 100%;
+        height: 500px;
+        background-image: url(__STATIC__/images/header.png);
+    }
+    a {
+        color: inherit
+    }
+</style>
+
+<body>
+    <header>
+        <div class="box">
+            <img id="index-img" src="__STATIC__/images/main.png" alt="">
+        </div>
+    </header>
+    <section class='content'>
+        {include file="static/html/login.html"/};
+    </section>
+</body>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/lib/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/disk/longbow.slidercaptcha.js"></script>
+<script src="__STATIC__/js/login.js"></script>
+<script>
+</script>
+
+</html>

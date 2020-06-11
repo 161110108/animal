@@ -1,0 +1,337 @@
+@import  " ./common.css";
+@import  " ./header.css";
+@import  " ./footer.css";
+@import "./recom.css";
+.user, .type-select {
+    display: none;
+}
+.detail{
+    display:flex;
+    margin:20px auto 0px;
+    /* background-color:#fff; */
+}
+.search {
+    position:absolute;
+    top:0;
+    padding:2px;
+    height:44px;
+    align-items: stretch;
+}
+header{
+    height:44px;
+}
+.pic{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:300px;
+    height: 300px;
+    background-color: #ddd;
+    /* border:1px solid #000; */
+}
+.img-box{
+    position:relative;
+    overflow: hidden;
+}
+.tag-img{
+    max-width: 100%;
+    max-height: 100%;
+}
+.nail{
+    display: flex;
+    margin-top:15px;
+    width:300px;
+    height:50px;
+    justify-content: space-between;
+}
+.nail img{
+    width:50px;
+    height:50px;
+}
+.detail .content{
+    position: relative;
+    margin-left: 25px;
+    padding:15px;
+}
+.detail .content p{
+    margin-bottom:8px;
+}
+.title{
+    font-size: 1.2em;
+    font-weight: 700;
+}
+.username{
+    font-size: 0.8em;
+    color:#a69999;
+}
+.time, .adress{
+    font-size:0.8em;
+}
+.btn{
+    margin-bottom: 5px;
+    padding:5px 10px;
+    background-color: #ff0036;
+    color:#fff;
+    border-radius: 3px;
+    height: 28px;
+}
+
+/* 展示细节 */
+.showDetail {
+    position: absolute;
+    display: none;
+    top:0px;
+    left:0px;
+    width:300px;
+    height:300px;
+    z-index:10
+}
+
+/* 选项卡 */
+.footer{
+    display:flex;
+    flex-direction: column;
+    margin-top:20px;
+}
+.menu-nav {
+    display:flex;
+    font-size: 16px;
+}
+.menu-nav span{
+    display: inline-block;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+.menu-nav span:hover{
+    font-weight: 700;
+    color:#ff6000;
+    cursor: pointer;
+}
+.menu-nav .select {
+    background-color: #fff;
+    color:#ff6000;
+}
+#content-box{
+    /* display:none; */
+    width: 100%;
+    /* height:200px; */
+    background-color:#fff;
+    padding:15px;
+}
+.comment{
+    display:flex;
+    margin-top:15px;
+    border:1px solid  #e8e8e8;
+    padding:10px;    
+    border-radius: 5px;
+}
+.comment .rescuer {
+    border-left:none;
+}
+.comment img{
+    border-radius: 50%;
+    width:100px;
+    height:100px;
+}
+.comment .content{
+    padding:5px 10px;
+}
+.comment .rescuer {
+    margin-right:12px;
+}
+
+#recom {
+    /* display:none; */
+    /* width:950px; */
+    background-color:#fff;
+    padding:15px;
+}
+#recom h3{
+    display:none;
+}
+.btn-box{
+    /* margin-top:20px; */
+    padding-top:39px;
+    height: 100px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.donation-item{
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+}
+
+/* 聊天窗口 */
+#cover{
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background-color:rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+.chat-box{
+    display:flex;
+    position: relative;
+    margin:0px auto;
+    width:60%;
+    height:500px;
+    background-color: #fff;
+}
+#cover .top{
+    margin:60px auto 0px;
+    width:60%;
+    border-bottom: 1px solid #e7e7e7;
+    background-color: #fff
+}
+.info-box{
+    flex:2;
+    background-color:#eeeae8;;
+}
+.chat{
+    flex:6;
+    position: relative;
+}
+.chat-news{
+    position: absolute;
+    top:-4px;
+    right:5px;
+    font-size: 12px;
+    color:#fff;
+    padding:1px 4px;
+    border-radius: 50%;
+    background-color: #F8C301;
+}
+.close{
+    display:inline-block;
+    padding:4px 8px;
+    color:#808080;
+}
+.close:hover{
+    background-color: #fa5151;
+    color:#ffffff;
+}
+#cover .nav{
+    text-align: right;
+}
+#cover .title{
+    text-align: center;
+    padding-bottom:10px;
+}
+.info-box div{
+    width:100%;
+    height:250px;
+    display: flex;
+    flex-direction: column;
+}
+.info-box p{
+    padding-left:43px;
+}
+.info-box img{
+    width:60%;
+    /* height: 50px; */
+    margin:10px auto;
+}
+.sender{
+    box-sizing: border-box;
+    border-bottom: 1px solid #c9c6c6;
+
+}
+.record{
+    width:100%;
+    height: 65%;
+    box-sizing: border-box;
+    border-bottom:1px solid #e7e7e7;
+    padding:0px 5px;
+    overflow-y:hidden;
+}
+.record:hover{
+    overflow-y: scroll;
+}
+.record:hover .me{
+    margin-right:0px;
+}
+.record img{
+    width:40px;
+    height:40px;
+}
+.me{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.other{
+    display: flex;
+    flex-direction: row;
+}
+.record .tip{
+    text-align: center;
+    font-size: 12px;
+    color:#dadada;  
+    margin:10px auto;
+}
+/* 聊天框 */
+.record li{
+    margin:17px;
+}
+.record-item {
+    position:relative;
+    max-width: 300px;
+    word-break:break-all;
+    background:#F8C301;
+    border-radius:5px; /* 圆角 */
+    margin:0px 12px;
+    padding:9px;
+}
+    
+.record-item .arrow {
+    position:absolute;
+    top:10px;
+    /* 圆角的位置需要细心调试哦 */
+    width:0;
+    height:0;
+    font-size:0;
+    border:solid 6px;
+   
+}
+.me .arrow{
+    right:-12px; 
+    border-color:#ffffff #ffffff #ffffff #F8C301;
+}
+.other .arrow{
+    left:-12px;
+    border-color:#ffffff #F8C301 #ffffff #ffffff;
+}
+.chat-in {
+    position: relative;
+    padding:10px;
+    height: 35%;
+}
+
+#chat_btn{
+    position: absolute;
+    bottom:5px;
+    right:15px;
+    padding:5px 20px;
+    border:1px solid #eeeae8;
+    background-color: #f5f5f5;
+}
+#chat_btn:hover{
+    background-color: #129611;
+    color:#fff;
+}
+.donation-item{
+    margin-bottom: 10px;
+}
+.donation-item span{
+    width:40px;
+  
+}
+#donation{
+    display:block;
+}
+.chat-btn{
+    position: relative;
+    width:75px;
+}
+.btn-box{
+    width: 75px;
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$master->info->name}主页</title>
+    <link rel="stylesheet" href="__STATIC__/css/info.css">
+    <link rel="shortcut icon" href="__STATIC__/images/bird.ico" type="image/x-icon">
+    <script src="__STATIC__/js/jquery.js"></script>
+</head>
+
+<body>
+    <header>
+        {include file="static/html/header.html"/}
+    </header>
+    <!-- name img name msg 进度条 -->
+    <section style="position: relative;">
+        <h3>详细信息</h3>
+        <div id="donation">   
+            <div class="donation-item">
+                <img src="{$master->info->img}" alt="">
+                <div class="content">
+                    <p class="name"><span>姓名：</span>{$master->info->name}</p>
+                    <p class="name"><span>地址：</span>{$master->info->adress}</p>
+                    <p class="name"><span>年龄：</span>{$master->info->age}</p>
+                    <p class="msg"><span>简介：</span>{$master->info->msg}</p>
+                </div> 
+                
+                {eq name='master->id' value='$user->id'}
+                <a class="button" href="/changeInfo">修改信息</a>        
+                {/eq}
+               
+            </div>    
+        </div>
+        {gt name='master->power' value='1'}
+                <div class="id">
+                    <em>认证</em>
+                </div>
+        {/gt}
+    </section>
+    <section id="myitem">
+        <h3>领养信息</h3>
+        {eq name='animal|count' value='0'}
+        <a class="button" href="/create">去发布</a>
+        {/eq}
+        {foreach $animal as $a}
+        <div class="show">
+            <!-- title,img,url,tag,Intro_Msg,rescuer,adress -->
+            <a class="animal" href="/detail/id/{$a.id}">
+                <p class="title"><span>标题：</span>{$a.info.title}</p>
+                <p class="adress"><span>地址：</span>{$a.info.adress}</p>
+                <p class="msg"><span>简介：</span>{$a.info.msg}</p>
+                <p class="time">{$a.time}</p>
+               
+                <img src="{$a.img.img1}" alt="">
+                <img src="{$a.img.img2}" alt="">
+                <img src="{$a.img.img3}" alt="">
+                <img src="{$a.img.img4}" alt="">
+                <img src="{$a.img.img5}" alt="">
+            </a>
+            {switch name="a.status"}
+            {case value="0"}
+            <div class="id">
+                <em>审核</em>
+            </div>
+            {/case}
+            {case value="1"}
+            <div class="id">
+                <em>待领</em>
+            </div>
+            {/case}
+            {case value="2"}
+            <div class="id">
+                <em>完成</em>
+            </div>
+            {/case}
+            {/switch}
+        </div>
+        {/foreach}
+    </section>
+    <section id="apply">
+        <h3>申请</h3>
+        {foreach $apply as $a}
+        <div class="show">
+            <!-- title,img,url,tag,Intro_Msg,rescuer,adress -->
+            <a class="animal" href="/detail/id/{$a.id}">
+                <p class="title"><span>标题：</span>{$a.info.title}</p>
+                <p class="adress"><span>地址：</span>{$a.info.adress}</p>
+                <p class="msg"><span>简介：</span>{$a.info.msg}</p>
+                <p class="time">{$a.time}</p>
+               
+                <img src="{$a.img.img1}" alt="">
+                <img src="{$a.img.img2}" alt="">
+                <img src="{$a.img.img3}" alt="">
+                <img src="{$a.img.img4}" alt="">
+            </a>
+            <a class="rescuer" href='/info?id={$a.res.id}'>
+                <img src="__STATIC__/images/show-img1.jpg" alt="">
+                <p class="title">{$a.res.info.name}</p>
+                <p>{$a.res.info.msg}</p>
+            </a>
+            {gt name="a.res.power" value='1'}
+            <div class="id">
+                <em>认证</em>
+            </div>
+            {/gt}
+        </div>
+        {/foreach}
+        
+    </section>
+   
+
+</body>
+<script>
+    let arrlen = "{$apply|count}"
+    if(arrlen=='0'){
+        $('#apply').remove();
+    }
+    let show = "{$master->info->show}";
+    let concact = ["{$master->info->qq}","{$master->info->wechat}","{$master->phone}"];
+    let name = ['qq：','微信：','电话：'];
+    show.split('').forEach((i,n)=>{
+        if(i=='1'){
+            $('.content').append('<p class="msg"><span>'+name[n]+'</span>'+concact[n]+'</p>')
+        }
+    });
+    // $('#myitem').append('<h3>我发布的</h3>');
+</script>
+
+</html>

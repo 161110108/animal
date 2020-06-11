@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改信息</title>
+    <link rel="stylesheet" href="__STATIC__/css/changeInfo.css">
+    <link rel="stylesheet" href="__STATIC__/assets/iconfont/iconfont.css">
+    <script src="__STATIC__/js/jquery.js"></script>
+</head>
+<body>
+    <header>
+        {include file="static/html/header.html"/};
+    </header>
+    <section class="w info">
+    <form action="./user/changeinfo" method="POST" id="info_form" enctype="multipart/form-data">
+        <ul class="item">
+            <li class="pic">
+                <img id="pic" src="{$user.img}" alt="" >
+                <input id="upload" type="file" name="image" value="上传头像" accept="image/*">
+                <em>点击图片上传头像</em>
+            </li>
+            <li>
+                <span>用户名</span>
+                <input name="name" value="{$user.name}" type="text" pattern=".{2,}" required title="字符长度在2-16">
+            </li>
+            <li>
+                <span>地址</span>
+                <input name="adress" value="{$user.adress}" type="adress">
+            </li>
+            <li>
+                <span>qq</span>
+                <input name="qq"  value="{$user.qq}" type="text">
+            </li>
+            <li>
+                <span>微信</span>
+                <input name="wechat" value="{$user.wechat}" type="text">
+            </li>
+            <li>
+                <span>电话</span>
+                <input name="phone" value="{$user.phone}" type="text">
+            </li>
+            <li>
+                <span>展示</span>
+                <input type="checkbox" name="show">qq
+                <input type="checkbox" name="show">微信
+                <input type="checkbox" name="show">电话
+            </li>
+            <li>
+                <span>年龄</span>
+                <input name="age"  value="{$user.age}" type="text">
+            </li>
+            <li>
+                <span>简介</span>
+                <div class="msg">
+                    <textarea  name="msg" id="" cols="30" rows="10" maxlength="120">{$user.msg}</textarea>
+                </div>
+            </li>
+        </ul>
+        <input type="submit" id="submit" value="保存">
+        <input id="hidden" type="hidden" name="id" value="{$user.id}"> 
+        <input id="show" type="hidden" name="show">
+    </form>
+    </section>
+</body>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/lib/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/disk/longbow.slidercaptcha.js"></script>
+<script>
+    //初始化复选框
+    var init = "{$user.show}";
+    $('input:checkbox').each((n,item)=>{
+        if(init[n]==1){
+            $(item).prop('checked',true)
+        }else{
+            $(item).prop('checked',false)
+        }
+    })
+
+    //图片预览
+    $('#pic').click(function(){
+        $('#upload').click();
+        $('#upload').on("change",function(){
+            var objUrl = getObjectURL(this.files[0]);
+            if (objUrl) {
+                $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+            }
+        })
+    })
+    function getObjectURL(file) {
+      var url = null;
+      if (window.createObjectURL != undefined) { // basic
+          url = window.createObjectURL(file);
+      } else if (window.URL != undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
+      }
+      return url;
+    }
+
+    //提交验证
+    var test = [
+        /^[\u4E00-\u9FA5A-Za-z0-9]{1,16}$/,
+        /^(?!test).*/,
+        /^[1-9][0-9]{4,13}$/,
+        /^([a-zA-Z][a-zA-Z\d_-]{5,19})|(1([38]\d|5[0-35-9]|7[3678])\d{8})$/,
+        /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/,
+        /^(?:[1-9][0-9]?|1[0-4][0-9]|130)$/
+    ], wrong = [
+        '*用户名由中文数字字母组成，不能包含特殊符号',
+        '*',
+        '*请输入正确的qq号',
+        '*请输入正确的微信号',
+        '*请输入正确的手机号',
+        '*请输入正确的年龄'
+    ],tip = [];
+    for(let i=0; i<test.length;i++){
+        tip[i] = document.createElement('i');
+        tip[i].className = 'warn';
+        tip[i].innerText = wrong[i]
+    }
+    $('.info input:not(:checkbox,#upload,#submit,#hidden,#show)').change(function(){
+        let n = $(this).parent().index()-1;
+        // console.log(this.parentNode);
+        if(!(test[n].test(this.value)) && this.value !=''){
+            this.parentNode.appendChild(tip[n])
+        }else{
+            $(tip[n]).remove();
+        }
+    })
+    // 提交图片
+    $('#info_form').submit(function(){
+        console.log($('.info input:not(:checkbox,#upload,#submit,#hidden)'))
+        let tag = 1
+        $('.info input:not(:checkbox,#upload,#submit,#hidden,#show)').each((n,item)=>{
+            if(item.value==''){
+                return;
+            }else if(!(test[n].test(item.value))){
+                tag = 0;
+            }
+        })
+        if(tag == 0){
+            alert('0g');
+            return false;
+        }
+        let showContent = '';
+        $('input:checkbox').each((n,item)=>{
+            showContent += bs($(item).is(':checked'));
+        })
+        $('input:checkbox').remove();
+        $('#show').val(showContent);
+        
+      
+        //模仿表单提交
+        // let temp_form = document.createElement('form');
+        // temp_form.action = './user/changeinfo';
+        // temp_form.method = "post";
+        // temp_form   .target = "_self";
+        // temp_form.style.display = "none";
+        // // $('.info input:not(:checkbox,#upload)').each(function(num,item){
+        // //     let opt = document.createElement("textarea");
+        // //     opt.name = item.name;
+        // //     opt.value = item.value;
+        // //     temp_form.appendChild(opt);
+        // // })
+        // $('.info input').each((name,item)=>{
+        //     temp_form.appendChild(item);
+        // })
+        // temp_form.appendChild($('textarea')[0]);
+        // // console.log($('textarea')[0])
+        // document.body.appendChild(temp_form);
+        // temp_form.submit();
+        // // console.log($('input:checkbox').eq(1).prop('checked'))  
+
+        //测试
+        // return false;
+        
+    })
+
+    
+    function bs(boolean){
+      if(boolean){
+          return '1';
+      }else{
+          return '0';
+      }
+    }
+
+</script>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+</head>
+<link rel="stylesheet" href="__STATIC__/css/login.css">
+<link rel="stylesheet" href="__STATIC__/assets/iconfont/iconfont.css">
+<style>
+    body {
+        background-color: #fff;
+    }
+    .box {
+        width: 1180px;
+        margin: auto;
+    }
+
+    #index-img {
+        height: 80px;
+    }
+
+    .content {
+        width: 100%;
+        height: 500px;
+        background-image: url(__STATIC__/images/header.png);
+    }
+    a {
+        color: inherit
+    }
+</style>
+
+<body>
+    <header>
+        <div class="box">
+            <img id="index-img" src="__STATIC__/images/main.png" alt="">
+        </div>
+    </header>
+    <section class='content'>
+        <div class="f_r login-box">
+            <form action="./user/add" method="POST">
+                <ul class="login-ul">
+                    <li class="login-title">注册</li>
+                    <li class="login-li ">
+                        <div class="clearfix">
+                            <span class="iconfont icon-denglu login-ico"></span>
+                            <input class="login-input" type="text" name="username" placeholder="手机号">
+                        </div>
+                        
+                    </li>
+
+                    <li class="login-li ">
+                        <div class="clearfix">
+                            <span class="iconfont icon-mima login-ico"></span>
+                            <input type="password" name="password" class="login-input" placeholder="密码">
+                        </div>
+                    </li>
+                    <li class="login-li">
+                        <input class="login-submit" type="submit" value="注册">
+                    </li>
+
+                    <li class="login-li clearfix">
+                        <div class="f_l ">
+                            <!-- <input type="checkbox" name="autologin" class="login-check" id="auto-login"><label
+                                for="auto-login">记住密码</label> -->
+                        </div>
+                        <a href="./login" class="f_r">登陆</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </section>
+    <div class="ver">
+        <div class="slidercaptcha card">
+            <div class="card-header">
+                <span>请完成安全验证</span>
+            </div>
+            <div class="card-body">
+                <div id="captcha"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="__STATIC__/js/jquery.js"></script>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/lib/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+<script src="__STATIC__/assets/SliderCaptcha-master/src/disk/longbow.slidercaptcha.js"></script>
+<script src="__STATIC__/js/register.js"></script>
+
+</html>

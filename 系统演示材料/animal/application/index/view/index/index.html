@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="__STATIC__/css/index.css">
+    <link rel="shortcut icon" href="__STATIC__/images/bird.ico" type="image/x-icon">
+    <script src="__STATIC__/js/jquery.js"></script>
+</head>
+
+<body>
+    <header>
+        {include file="static/html/header.html"/}
+    </header>
+    <!-- name img name msg 进度条 -->
+    <!-- <div id="donation">
+        <div class="donation-item">
+            <img src="__STATIC__/images/show-img1.jpg" alt="">
+            <div class="content">
+                <p class="title">动保</p>
+                <p class="name">猫粮募捐</p>
+                <p class="msg">简介</p>
+            </div>
+        </div>
+        <div class="id">
+            <span>认证</span>
+        </div>
+    </div> -->
+
+
+
+</body>
+<script>
+    $('header .f_r a').eq(0).css('display','none')
+    $.post('/animal/recom',{'id':"{$user.id}"},(res)=>{
+        // console.log(res)
+        if(res==1){
+            ap();
+        }else{
+            let str='<section id="main-content"><h3>推荐</h3>';
+            data = JSON.parse(res);
+            data.forEach((item)=>{
+                 str+=`<div class="show">
+                 <!-- title,img,url,tag,Intro_Msg,rescuer,adress -->
+                 <a href="/detail/id/${item.id}" class="animal">
+                     <p class="title">${item.info.title}</p>
+                     <p class="adress">地址：${item.info.adress}</p>
+                     <p class="msg">${item.info.msg}</p>
+                     <p class="time">${item.time}</p>
+                     <img src="${item.img.img1}" alt="">
+                     <img src="${item.img.img2}" alt="">
+                     <img src="${item.img.img3}" alt="">
+                     <img src="${item.img.img4}" alt="">
+                 </a>
+                 <a href="./info?id=${item.res.id}" class="rescuer">
+                     <img src="${item.res.info.img}" alt="">
+                     <p class="title">${item.res.info.name}</p>
+                     <p>${item.res.info.msg}</p>
+                 </a>`
+                 // <div class="id">
+                 //     <em>认证</em>
+                 // </div>
+                 if(item.res.power>1){
+                     str += '<div class="id"><em>认证</em></div>'
+                 }
+                 str+='</div>'
+            })
+            str += '</section>';
+            $('body').append(str);
+        }
+        console.log(JSON.parse(res))
+    })
+</script>
+
+</html>

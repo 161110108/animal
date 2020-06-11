@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>详情页</title>
+    <link rel="stylesheet" href="__STATIC__/css/detail.css">
+    <script src="__STATIC__/js/jquery.js"></script>
+    <style>
+        .choose {
+            /* top:0;
+            left:0; */
+            display: none;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 255, 255, .5)
+        }
+    </style>
+</head>
+<!-- animal_id:领养动物的id，user:登陆用户，role：角色（2领养者，1送养者，0普通用户） -->
+<body>
+    <header>
+        {include file="static/html/header.html"/};
+    </header>
+    <!-- img title username  msg time adress -->
+    <section class="w detail">
+
+        <div>
+
+            <div class="pic">
+                <div class="img-box">
+                    <div class="choose"></div>
+                    <img class="tag-img" src="{$animal.img.img1}" alt="">
+                </div>
+
+            </div>
+            <div class="nail">
+                <img src="{$animal.img.img1}" alt="">
+                <img src="{$animal.img.img2}" alt="">
+                <img src="{$animal.img.img3}" alt="">
+                <img src="{$animal.img.img4}" alt="">
+                <img src="{$animal.img.img5}" alt="">
+            </div>
+        </div>
+        <div class=" content">
+            <div class="showDetail"></div>
+            <p class="title">{$animal.info.title}</p>
+            <p class="username"><a href="http://www.animal.com/info?id={$animal.rescuer}">{$animal.res.info.name}</a></p>
+            <p class="msg">{$animal.info.msg}</p>
+            <p class="time">{$animal.time}</p>
+            <p class="adress">{$animal.info.adress}</p>
+            {eq name='role' value ='0'}
+            <button id="apply" class="btn">申请领养</button>
+            {/eq}
+            {eq name='role' value='2'}
+            <p class="adress">申请中</p>
+            <button class="btn chat-btn" access="{$animal.res.id}" >聊天</button>
+            {/eq}
+        </div>
+
+
+    </section>
+
+    <!-- <section class="w footer">
+        <div class="menu-nav">
+            {switch name='role'}
+                {case value='1'}
+                <span class="select" id="apply_button">申请列表</span>
+                {/case}
+                {case value='0'}
+                <span class="select">推荐</span>
+                {/case}
+                {case value='2'}
+                <span class="select">推荐</span>
+                <span>聊天</span>
+                {/case}
+            {/switch}
+        </div>   
+        
+    </section> -->
+    <!-- <div id="cover">
+        <div class="top">
+            <div class="nav">
+                <span class="close">x</span>
+            </div>
+            <div class="title">
+                test
+            </div>
+        </div>
+        <div class="chat-box">
+            <div class="info-box">
+                <div class="sender">
+                    <img src="__STATIC__/images/show-img1.jpg" alt="">
+                    <p class="name"><span>姓名：</span>lye</p>
+                    <p class="name"><span>地址：</span>广东</p>
+                    <p class="name"><span>年龄：</span>3</p>
+                </div>
+                <div class="access">
+                    <img src="__STATIC__/images/show-img1.jpg" alt="">
+                    <p class="name"><span>姓名：</span>lye</p>
+                    <p class="name"><span>地址：</span>广东</p>
+                    <p class="name"><span>年龄：</span>3</p>
+                </div>
+            </div>
+            <div class="chat">
+                <ul class="record">
+                    <li class="tip">你已经发出申请，现在可以聊天</li>
+                    <li class="me">
+                        <img src="__STATIC__/images/show-img1.jpg" alt="">
+                        <div class="record-item">11<span class="arrow"></span></div>
+                    </li>
+                    <li class="other">
+                        <img src="__STATIC__/images/show-img1.jpg" alt="">
+                        <div class="record-item">11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111<span class="arrow"></span></div>
+                    </li>
+
+                </ul>
+                <div class="chat-in">
+                    <textarea name="" id="" cols="30" rows="10" maxlength="245"></textarea>
+                    <button id="chat_btn">发送</button>
+                </div>
+            </div>      
+        </div>
+    </div> -->
+</body>
+
+<script src="__STATIC__/js/detail.js"></script>
+<script>
+    // role参数 0：普通用户 1：发表者 2：申请者
+    let animal_id = "{$animal.id}" 
+    let role = {$role};
+    let adopt = "{$animal.status}";
+    if(adopt=='2'){
+        var adopter = "{$animal.adopter.adopt}"
+    }
+    if(adopt==2 && role=='1'){
+        let id = "{$animal.adopter.adopt}"
+        getItem(id,'领养者')
+        
+    }else if(role=='1'){
+        //master
+        let apply = {$apply};
+        let id = [];
+        for(let key in apply){
+            id.push(apply[key].applyer)
+        }
+        id=id.join(',')
+
+        getItem(id,'申请列表')
+    }else if(role=='2'){
+        str= `    <section class="w footer">
+        <div class="menu-nav">
+            <span class="select">推荐</span>
+            </div>   
+          </section>`
+        $('body').append(str);
+        if(adopt=='2'){
+            $('.content').children('p:last-of-type').remove();
+            if(adopter!="{$user.id}"){
+                $('.content').append('<p class="adress">已送养其他领养者，下拉获取更多待领爱宠</p>')
+            }else{
+                let certain = "{$animal.adopter.certain}"
+                console.log(certain)
+                if(certain == '0'){
+                    $('.content').append('<p class="adress">已经送养，请在爱宠入住后确认</p><button class="btn" id="success">确认完成</button>')
+                    // 添加确认事件
+                    $('#success').click(function(){
+                        $.post('http://www.animal.com/animal/certain',{'id':animal_id},res=>{
+                            console.log(res);
+                            if(res=='1'){
+                                alert('已经确认');
+                                window.location.reload(true);
+                            }
+                        })
+                    })
+                }else{
+                    $('.content').append('<p class="adress">领养已经完成</p>')
+                }
+
+            }
+        }
+        $('.chat-btn').click(function(){
+            let access = $(this).attr('access')
+            let obj = {
+                'src':'{$animal.res.info.img}',
+                '年龄':'{$animal.res.info.age}',
+                '地址':'{$animal.res.info.adress}',
+                '姓名':'{$animal.res.info.name}'
+            }
+            
+            tall(access,obj,"{$user.id}")
+        })
+        newsRemind("{$animal.res.id}")
+    }else if(role=='0'){
+        str= `    <section class="w footer">
+        <div class="menu-nav">
+            <span class="select">推荐</span>
+            </div>   
+          </section>`
+        $('body').append(str);
+        $('#apply').click(function(){
+            $.post('http://www.animal.com/messages/newApply',{'animal_id':"{$animal.id}",'applyer':"{$user.id}"},res=>{
+                if(res=='success'){
+                    alert('已发出申请，需要和救助人协商后确认')
+                    window.location.reload(true);
+                }
+            })
+        })
+        let already = "{$animal.status}";
+        if(already=='2'){
+            $('#apply').parent().append('<p>已经被领养</p>')
+            $("#apply").remove();
+        }else if(already == '0'){
+            $('#apply').parent().append('<p>未审核</p>')
+            $("#apply").remove();
+        }
+    }
+    
+    
+    
+    function getItem(id,tit){
+        $.post('http://www.animal.com/user/post',{'id':id},(res)=>{
+            let datas = JSON.parse(res);
+            let str='<section class="w footer"><div class="menu-nav"><span class="select" id="apply_button">'+ tit +'</span></div><div id="donation">';
+            datas.forEach((data,n)=>{
+                str+=`<div class="donation-item">
+                        <img src="${data.img}" alt="">
+                        <a class="content">
+                            <p class="name"><span>姓名：</span><i>${data.name}</i></p>
+                            <p class="name"><span>地址：</span><i>${data.adress}</i></p>
+                            <p class="name"><span>年龄：</span><i>${data.age}</i></p>
+                            <p class="msg"><span>简介：</span><i>${data.msg}</i></p>
+                        </a> 
+                        <div class='btn-box'>
+                            <button access="${data.id}" class='btn chat-btn'>聊天</button>`;
+                if(tit=='申请列表'){
+                    str+=`<button access="${data.id}" class='btn con'>确认送养</button>`
+                }
+                str+=`</div></div> `;
+            })
+            str+='</div></section>';
+            $('body').append(str)
+            // 新消息提醒功能
+            
+            // 初始化和定时刷新   id:字符串
+            let newsTimer = newsRemind(id);
+            //聊天功能
+            $('.chat-btn').click(function(){
+                let obj = {'src':$(this).parent().prev().prev().attr('src')};
+                $(this).parent().prev().children(':not(.msg)').each((n,item)=>{
+                    // console.log($(this).children('i').text())
+                    let a = $(item).text().split('：');
+                    obj[a[0]]= a[1];
+                })
+                tall($(this).attr('access'),obj,$(this).attr('access'))
+            })
+            
+            //确认功能
+            if(tit == '申请列表'){
+                $('.con').click(function(){
+                        // window.location.href="http://www.animal.com/animal/adopt?id="+this.getAttribute('access')+"&animal="+"{$animal.id}";
+                        $.get("http://www.animal.com/animal/adopt?id="+this.getAttribute('access')+"&animal="+"{$animal.id}",res=>{
+                            alert('确认成功，请尽快交接领养动物')
+                            window.location.reload();
+                        })
+                })
+            }
+           
+        })
+    }
+    function newsRemind(send=''){
+        let master = "{$user.id}";
+        $.post('http://www.animal.com/messages/news',{'send':send,'access':master,'animal_id':animal_id},(res)=>{
+                    console.log(res)
+                    datas = JSON.parse(res);
+                    $('.chat-btn').each((n,item)=>{
+                        $(item).children('em').remove();
+                    })
+                    for(let key in datas){
+                        $('.chat-btn[access="'+ key +'"]').append('<em class = "chat-news">'+ datas[key] +'</em>')
+                    }
+        })
+        return setInterval(() => {
+            $.post('http://www.animal.com/messages/news',{'send':send,'access':master,'animal_id':animal_id},(res)=>{
+                    datas = JSON.parse(res);
+                    $('.chat-btn').each((n,item)=>{
+                        $(item).children('em').remove();
+                    })
+                    for(let key in datas){
+                        $('.chat-btn[access="'+ key +'"]').append('<em class = "chat-news">'+ datas[key] +'</em>')
+                    }
+            })
+        }, 1000);
+    }
+    // access：消息接收人id other:接收人信息
+    function tall(access,other,applyer){
+        let master = "{$user.id}";  
+        let str = `<div id="cover">
+            <div class="top">
+               <div class="nav">
+                   <span class="close">x</span>
+               </div>
+               <div class="title">
+                   test
+               </div>
+            </div>
+            <div class="chat-box">
+               <div class="info-box">
+                   <div class="sender">
+                       <img src="${other.src}" alt="">
+                       <p class="name"><span>姓名：</span>${other['姓名']}</p>
+                       <p class="name"><span>地址：</span>${other['地址']}</p>
+                       <p class="name"><span>年龄：</span>${other['年龄']}</p>
+                   </div>
+                   <div class="access">
+                       <img src="{$user.info.img}" alt="">
+                       <p class="name"><span>姓名：</span>{$user.info.name}</p>
+                       <p class="name"><span>地址：</span>{$user.info.adress}</p>
+                       <p class="name"><span>年龄：</span>{$user.info.age}</p>
+                   </div>
+               </div>
+               <div class="chat">
+                <ul class="record">
+                
+                       <li class="tip">你已经发出申请，现在可以聊天</li>`;
+        str+=`</ul>
+                             <div class="chat-in">
+                                 <textarea name="" id="" cols="30" rows="10" maxlength="245"></textarea>
+                                 <button aID="${a}" id="chat_btn">发送</button>
+                             </div>
+                         </div>      
+                     </div>
+                 </div>`;
+        $('body').append(str);
+        let ulHeight = $('.record')[0].scrollHeight;
+        //定时器刷新
+        refresh();
+        // $('.record').children('ul').scrollTop($('.record').children('ul')[0].scrollHeight)
+        let retime = setInterval(() => {
+                refresh()
+        }, 100);
+        $('.close').click(function(){
+            clearInterval(retime);
+            $('#cover').remove();
+        })
+        $('#chat_btn').click(function(){
+            if($(this).prev().val()!=''){
+                let data = {
+                'send':master,
+                'access':access,
+                'applyer':applyer,
+                'animal_id':animal_id,
+                'msg':$(this).prev().val()
+                };
+                $.ajaxSettings.async = false;
+                $.post('http://www.animal.com/messages/create',data,(res)=>{
+                    $(this).prev().val('')
+                })
+                $.ajaxSettings.async = true;
+            }
+        })   
+        function refresh(){
+            $.post('http://www.animal.com/messages/post',{'applyer':applyer,'animal_id':animal_id,'send':master},(res)=>{
+                datas = JSON.parse(res).data;
+                let str = ' <li class="tip">你已经发出申请，现在可以聊天</li>'
+                datas.forEach((data)=>{
+                    if(data.send==master){
+                        str+=`<li class="me">
+                            <img src="{$user.img}" alt="">
+                            <div class="record-item">${data.msg}<span class="arrow"></span></div>
+                        </li>`;
+                    }else{
+                        str+=`<li class="other">
+                            <img src="${other.src}" alt="">
+                            <div class="record-item">${data.msg}<span class="arrow"></span></div>
+                        </li>`
+                    }
+                })
+                $('.record').empty().append(str);
+                if($('.record')[0].scrollHeight != ulHeight){
+                    ulHeight = $('.record')[0].scrollHeight
+                    $('.record')[0].scrollTop = ulHeight-$('.record')[0].clientHeight
+                }
+            })
+        }   
+    }
+
+    
+</script>
+
+</html>

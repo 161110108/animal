@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布</title>
+    <link rel="stylesheet" href="__STATIC__/css/create.css">
+    <link rel="shortcut icon" href="__STATIC__/images/bird.ico" type="image/x-icon">
+    <script src="__STATIC__/js/jquery.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        {include file="static/html/header.html"/}
+    </header>
+    <!-- 添加信息 -->
+    <section>
+        <form action="./animal/create" method="POST" id="info_form" enctype="multipart/form-data">
+            <ul class="item">
+                <li><span class="input-title">标题</span><input name="title" type="text"></li>
+                <li><span class="input-title">类型</span><input type="radio" name="type" value="cat">猫<input type="radio" name="type" value="dog">狗<input type="radio" name="type" value="other">其他</li>
+                <li>
+                    <span class="input-title">标签</span>
+                    <div id="tag_box">
+                        <input type="text" id='tag_in'>
+                        <input id="tag" name="tag" type="hidden">
+                    </div>
+                    <button id='tag_btn'>添加新标签</button>
+                </li>
+                <li><span class="input-title">地址</span><input name="adress" type="text"></li>
+                <li>
+                    <span class="input-title">详情</span>
+                    <div class="msg-box">
+                        <textarea name="msg" id="msg" cols="30" rows="10"></textarea>
+                    </div>
+                </li>
+                <li>
+                    <div id="img_box">
+                        <label id="img_btn" for="1">添加图片</label>
+                        <p id="show_img">
+                            
+                        </p>
+                        <div id="file_box">
+                            <input name="image[]" type="file" id="1" accept="image/*">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <input type="hidden" name="rescuer" value="{$user.id}">
+                    <input type="submit" value="保存" id="submit">
+                </li>
+            </ul>
+        </form>
+        
+    </section>
+</body>
+<script>
+    
+    // 添加标签
+    $('#tag_box').click(function(){
+        $(this).children('#tag_in').select()
+    })
+    $('#tag_btn').click(function(){
+        if($('.tag-item').length<=3){
+            if($('#tag_box').children('#tag_in').val()!=''){
+                $item = $('<i class="tag-item">'+ $('#tag_box').children('#tag_in').val() +'</i>')
+                $item.dblclick(function(ev){
+                    $(this).remove();
+                    ev.preventDefault();
+                    return false;
+                })
+                $('#tag_in').before($item);
+            }
+        }else{
+            alert('最多只能输入4个标签')
+        }
+        $('#tag_box').children('#tag_in').val('').select();
+        return false;
+    })
+    // 删除标签：1.双击特定标签删除；2.del键删除上一个标签
+    $('#tag_in').keydown(function(ev){
+        if(ev.keyCode == 8 && $(this).val()=='' && $(this).prev().length>0 ){
+            $(this).prev().remove();
+            console.log($(this).prev())
+        }
+        // $(document).keyup(function(e){
+        // if (e.keyCode == 27) 
+        //     {
+        //         alert('按下了ESC键，关闭弹出层');
+        //     }
+        // })
+    })
+
+    //添加图片
+    $('#img_btn').click(function(){
+        // console.log($(this).attr('for'))
+        if($('#show_img').children().length>=5){
+            alert('最多上传5张图片');
+            return false;
+        }
+        $imgId = $(this).attr('for');
+        $('[id='+ $imgId +']').change(function(){
+            var objUrl = getObjectURL(this.files[0]);
+            if(objUrl){
+                $img = $('<img src='+ objUrl +' tag='+ $imgId +'>')
+                $('#show_img').append($img);
+                $img.dblclick(function(){
+                    let tag = $(this).attr('tag');
+                    $(this).remove();
+                    $('[id='+ tag +']').remove();
+                    // console.log($('#file_box').children().last()[0].files[0])
+                    if($('#file_box').children().last()[0].files[0]){
+                        addFile();
+                    }
+                })
+            }
+            if($('#file_box').children().length<5){
+                addFile();
+            }         
+        })      
+    })
+    function addFile(){
+        $('#img_btn').attr('for', parseInt($imgId) + 1 );
+        $newfile = $(' <input name="image[]" type="file" id="'+ (parseInt($imgId)+1) +'" accept="image/*">')    
+        $('#file_box').append($newfile)
+        // console.log($newfile[0].files[0])
+    }
+    // $('#pic').click(function(){
+    //     $('#upload').click();
+    //     $('#upload').on("change",function(){
+    //         var objUrl = getObjectURL(this.files[0]);
+    //         if (objUrl) {
+    //             $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+    //         }
+    //     })
+    // })
+    function getObjectURL(file) {
+      var url = null;
+      if (window.createObjectURL != undefined) { // basic
+          url = window.createObjectURL(file);
+      } else if (window.URL != undefined) { // mozilla(firefox)
+          url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) { // webkit or chrome
+          url = window.webkitURL.createObjectURL(file);
+      }
+      return url;
+    }
+    $('form').submit(function(){
+       $tag = '';
+
+        $('#tag_box').children('.tag-item').each((n,item)=>{
+            $tag += $(item).text()+';';
+        })
+        $(this.tag).val($tag);
+        // console.log($(this.tag));
+        // return false;
+    })
+</script>
+
+</html>

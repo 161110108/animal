@@ -1,0 +1,44 @@
+<div class="f_r login-box">
+    <form action="./user/add" method="POST">
+        <ul class="login-ul">
+            <li class="login-title">登陆</li>
+            <li class="login-li ">
+                <div class="clearfix">
+                    <span class="iconfont icon-denglu login-ico"></span>
+                    <input value="{$phone}" class="login-input" type="text" name="username"
+                        placeholder="手机号">
+                </div>
+            </li>
+            <li class="login-li ">
+                <div class="clearfix">
+                    <span class="iconfont icon-mima login-ico"></span>
+                    <input value="{$password}" type="password" name="password" class="login-input"
+                        placeholder="密码">
+                </div>
+            </li>
+            <li class="login-li">
+                <input class="login-submit" type="submit" value="登录">
+            </li>
+            <li class="login-li clearfix">
+                <div class="f_l ">
+                    <input type="checkbox" name="autologin" class="login-check" value="1" id="auto-login"><label
+                        for="auto-login">记住密码</label>
+                </div>
+                <a href="./register" class="f_r">注册</a>
+            </li>
+        </ul>
+    </form>
+</div>
+<div class="ver">
+    <div class="slidercaptcha card">
+        <div class="card-header">
+            <span>请完成安全验证</span>
+        </div>
+        <div class="card-body">
+            <div id="captcha"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#auto-login').attr('checked', {$autologin})
+</script>

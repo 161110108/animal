@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        li {
+            position: relative;
+            margin: 10px;
+            height: 20px;
+        }
+
+        i {
+            padding-left: 10px;
+            font-style: normal;
+            border: none;
+            background-color: inherit;
+            color: #551a8b;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: none;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+        <li>
+            <span>JavaScript权威指南</span><i class="edit">编辑</i>
+            <div class="box">
+                <input type="text"><i class="save">保存</i><i class="cancel">取消</i>
+            </div>
+        </li>
+    </ul>
+</body>
+<script src="./index.js"></script>
+<script>
+    var li = document.getElementsByTagName('li');
+    var inp = document.getElementsByTagName('input');
+    var show = document.getElementsByTagName('span');
+    var edit = document.getElementsByClassName('edit');
+    var save = document.getElementsByClassName('save');
+    var cancel = document.getElementsByClassName('cancel');
+    var box = document.getElementsByClassName('box');
+
+
+    for (var i = 0; i < li.length; i++) {
+        edit[i].index = i;
+        cancel[i].index = i;
+        save[i].index = i;
+        edit[i].onclick = function () {
+            box[this.index].style.display = 'block';
+        }
+        cancel[i].onclick = function () {
+            box[this.index].style.display = 'none';
+            inp[this.index].value = '';
+        }
+        save[i].onclick = function () {
+            if(inp[this.index].value){
+                console.log(1)
+                show[this.index].innerHTML = inp[this.index].value;
+            }
+            box[this.index].style.display = 'none';
+            inp[this.index].value = '';
+        }
+    }
+
+</script>
+
+</html>

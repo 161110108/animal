@@ -1,0 +1,161 @@
+/* 公共样式 */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    /* chrome fs:12px */
+    font:14px/1.5 Helvetica Neue,Helvetica,Arial,Microsoft Yahei,Hiragino Sans GB,Heiti SC,WenQuanYi Micro Hei,sans-serif;
+    background-color:#ededed;
+    color: #333;
+
+}
+textarea {
+    width:100%;
+    resize: none;
+    font-size: 14px;
+}
+img {
+    /* 取消图片边框 */
+    border:none;
+    /* 取消图片下间隙 */
+    /* vertical-align: top; */
+    display: block;
+    /* 图片转块  text-align:center 不行了 */
+}
+a {
+    text-decoration: none;
+    color:inherit;
+}
+ul li ,ol li {
+    list-style: none;
+}
+input,button,textarea {
+    border:none;
+    /* 外轮廓取消 蓝色的光圈 */
+    outline:none;
+}
+.f_l {
+    float: left;
+}
+.f_r {
+    float: right;
+}
+.clearfix::after ,.clearfix::before {
+    content:'.';
+    line-height: 0;
+    height: 0;
+    font-size: 0;
+    display: block;
+    clear:both;
+
+}
+
+em,strong,i,b {
+    font-style: normal;
+    font-weight: 400;
+}
+
+table {
+    /* 细线边框 */
+    border-collapse: collapse;
+}
+
+.maincolor {
+    color: #ff6700;
+}
+
+.mb {
+    margin-bottom: 15px;
+}
+.mr {
+    margin-right: 15px;
+}
+.mr_no {
+    margin-right: 0px;
+}
+
+/* 版心  有效内容区域 */
+.w {
+    width:950px;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* 信用分 */
+.cre{
+    font-size:14px;
+    color:#ff6000;
+    font-weight: 700;
+}
+/* id */
+.id{
+    position: absolute;
+    top:0;right:0;
+    width:40px;
+    height: 40px;
+    border-top: 20px solid #4395ff;
+    border-right: 20px solid #4395ff;
+    border-bottom:20px solid rgba(0, 0, 0, 0);
+    border-left:20px solid rgba(0, 0, 0, 0);
+}
+.id span,.id em{
+    display:inline-block; 
+    position: absolute;
+    top:-12px;   
+    right:-22px; 
+    width:30px;  
+    color: #fff!important;
+    font-size:12px;
+    transform:rotate(45deg);  
+}
+
+
+
+.msg{
+    /* width:80%; */
+    display:-webkit-box;
+    overflow:hidden;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+}
+
+section{
+    margin:20px auto 0px;
+    width:950px;
+    background-color:#fff;
+    padding:15px;
+}
+section::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+#loading{
+    display: none;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    margin:400px auto;
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    box-shadow: 0 -12px 0 3px #000,
+                0 12px 1px 1px #333,
+                -12px 0 2px 1px #333,
+                12px 0 0 1px #333,
+                -9px -9px 3px 1px #333,
+                9px -9px 0 2px #333,
+                -9px 9px 1px 1px #333,
+                9px 9px 0 1px #333;
+    z-index: 10;
+    animation: gif-loading 2s linear 0s infinite;
+}
+@keyframes gif-loading{
+    from{transform: rotate(360deg);}
+    to{transform: rotate(0deg);}
+}
